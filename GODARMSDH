@@ -607,46 +607,16 @@ local humanoid = player.Character.Humanoid
 local animate = player.Character:FindFirstChild("Animate")
 
 if humanoid.RigType == Enum.HumanoidRigType.R15 then
-    while true do
-        -- Access and update animations
-        if animate then
-            local idle = animate:FindFirstChild("idle")
-            local walk = animate:FindFirstChild("walk")
-            local run = animate:FindFirstChild("run")
-            local jump = animate:FindFirstChild("jump")
-            local climb = animate:FindFirstChild("climb")
-            local fall = animate:FindFirstChild("fall")
-
-            if idle then
-                idle.Animation1.AnimationId = "http://www.roblox.com/asset/?id=101279640971758"
-                idle.Animation2.AnimationId = "http://www.roblox.com/asset/?id=101279640971758"
-            end
-
-            if walk then
-                walk.WalkAnim.AnimationId = "http://www.roblox.com/asset/?id=616168032"
-            end
-
-            if run then
-                run.RunAnim.AnimationId = "http://www.roblox.com/asset/?id=616163682"
-            end
-
-            if jump then
-                jump.JumpAnim.AnimationId = "http://www.roblox.com/asset/?id=754637456"
-            end
-
-            if climb then
-                climb.ClimbAnim.AnimationId = "http://www.roblox.com/asset/?id=1083439238"
-            end
-
-            if fall then
-                fall.FallAnim.AnimationId = "http://www.roblox.com/asset/?id=754636589"
-            end
-        end
-
-        -- Prevent the player from jumping (optional based on your goal)
-        humanoid.Jump = false
-
-        -- Wait before updating again
-        wait(1)
-    end
+while true do
+local Animate = game.Players.LocalPlayer.Character.Animate
+Animate.idle.Animation1.AnimationId = "http://www.roblox.com/asset/?id=782841498"
+Animate.idle.Animation2.AnimationId = "http://www.roblox.com/asset/?id=782841498"
+Animate.walk.WalkAnim.AnimationId = "http://www.roblox.com/asset/?id=616168032"
+Animate.run.RunAnim.AnimationId = "http://www.roblox.com/asset/?id=616163682"
+Animate.jump.JumpAnim.AnimationId = "http://www.roblox.com/asset/?id=1083218792"
+Animate.climb.ClimbAnim.AnimationId = "http://www.roblox.com/asset/?id=1083439238"
+Animate.fall.FallAnim.AnimationId = "http://www.roblox.com/asset/?id=707829716"
+game.Players.LocalPlayer.Character.Humanoid.Jump = false
+wait(1)
+end
 end
