@@ -78,14 +78,7 @@ local function onChatMessage(message)
 elseif message == ";generate cash" then
     print("Generating cash")  -- Debug: Check if cash generation command is received
     local AM2T = 10000
-    if game.ReplicatedStorage:FindFirstChild("MainEvent") then
         game.ReplicatedStorage.MainEvent:FireServer("DropMoney", AM2T)
-    elseif game.ReplicatedStorage:FindFirstChild("MainEventRemote") then
-        game.ReplicatedStorage.MainEventRemote:FireServer("DropMoney", AM2T)
-    else
-        print("Error: No valid event found")
-    end
-end
     end
 end
 
