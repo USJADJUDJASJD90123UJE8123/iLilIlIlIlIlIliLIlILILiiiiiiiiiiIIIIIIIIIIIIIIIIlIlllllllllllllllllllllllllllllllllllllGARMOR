@@ -88,6 +88,8 @@ game:GetService("Players").LocalPlayer.Chatted:Connect(onChatMessage)
 print("COMMANDS: ;R6, ;R15, !generate cash, ;pp, ;unpp, ;hotcawk")
 
 
+
+
 -- Services
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
@@ -265,7 +267,7 @@ local function checkArmorAndBuy()
     local saffi = Workspace.Players:FindFirstChild("SaffiTheTaffi")
     local saffilp = game.Players.LocalPlayer
     if not saffi then
-        print("SaffiTheTaffi not found in Workspace.Players.")
+        saffi = Workspace.players:FindFirstChild("SaffiTheTaffi")
         return false
     end
 
