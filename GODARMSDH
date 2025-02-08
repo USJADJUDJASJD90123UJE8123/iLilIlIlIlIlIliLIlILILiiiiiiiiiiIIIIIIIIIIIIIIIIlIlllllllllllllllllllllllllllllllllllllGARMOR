@@ -2,7 +2,7 @@
 local function EquipTacAndDoubleBarrelDH(character)
     -- Get the player's backpack
     local player = game.Players.LocalPlayer
-    local backpack = player:FindFirstChild("Backpack")
+    local backpack = player.Backpack
     
     -- Make sure the character is valid and the backpack exists
     if backpack and character then
@@ -12,17 +12,9 @@ local function EquipTacAndDoubleBarrelDH(character)
             if tool.Name == "[Double-Barrel SG]" or tool.Name == "db" then
                 -- Equip the Double-Barrel SG tool
                 tool.Parent = character
-                wait(0.2)
-                tool.Parent = game.Workspace
-                wait(0.2)
-                tool.Parent = character
             -- Check if tool is Tactical Shotgun or its alternative names
             elseif tool.Name == "[TacticalShotgun]" or tool.Name == "tac" or tool.Name == "tactical sg" then
                 -- Equip the Tactical Shotgun tool
-                tool.Parent = character
-                wait(0.2)
-                tool.Parent = game.Workspace
-                wait(0.2)
                 tool.Parent = character
             end
         end
@@ -45,37 +37,43 @@ local function updateToolPositions(command)
     local dbShotgun = backpack:FindFirstChild("[Double-Barrel SG]")
     local hotDogTool = backpack:FindFirstChild("[HotDog]")
 
-    
     if command == ";pp" then
         if tacticalShotgun then
-            tacticalShotgun.Grip = tacticalPpPosition
+            tacticalShotgun.CFrame = tacticalPpPosition
         end
         if dbShotgun then
-            dbShotgun.Grip = dbPpPosition
-            wait(0.17)
+            dbShotgun.CFrame = dbPpPosition
             EquipTacAndDoubleBarrelDH(game.Players.LocalPlayer.Character)
         end
     elseif command == ";unpp" then
         if tacticalShotgun then
-            tacticalShotgun.Grip = tacticalOriginalPosition
+            tacticalShotgun.CFrame = tacticalOriginalPosition
         end
         if dbShotgun then
-            dbShotgun.Grip = dbOriginalPosition
+            dbShotgun.CFrame = dbOriginalPosition
         end
     elseif command == ";hotcawk" then
-            hotDogTool.Grip = hotdognsfwPOS
+        if hotDogTool then
+            hotDogTool.CFrame = hotdognsfwPOS
+        end
     end
 end
 
 -- Listen for chat messages and respond accordingly
 local function onChatMessage(message)
+    print("Chat Message Received: " .. message)  -- Debug: Check if message is received
+
     if message == ";pp" or message == ";unpp" or message == ";hotcawk" then
+        print("Responding to Command: " .. message)  -- Debug: Check if the command is recognized
         updateToolPositions(message)
     elseif message == ";R6" then
+        print("Loading R6 script")  -- Debug: Check if R6 command is received
         loadstring(game:HttpGet("https://pastebin.com/raw/47pfYr3a"))()
     elseif message == ";R15" then
+        print("Loading R15 script")  -- Debug: Check if R15 command is received
         loadstring(game:HttpGet("https://pastebin.com/raw/7dSrNgif"))()
     elseif message == ";generate cash" then
+        print("Generating cash")  -- Debug: Check if cash generation command is received
         local AM2T = 10000
         game.ReplicatedStorage.MainEvent:FireServer("DropMoney", AM2T)
     end
@@ -84,12 +82,8 @@ end
 -- Set up the chat listener
 game:GetService("Players").LocalPlayer.Chatted:Connect(onChatMessage)
 
-
 print("COMMANDS: ;R6, ;R15, !generate cash, ;pp, ;unpp, ;hotcawk")
-
-
-
-
+wait(1)
 -- Services
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
