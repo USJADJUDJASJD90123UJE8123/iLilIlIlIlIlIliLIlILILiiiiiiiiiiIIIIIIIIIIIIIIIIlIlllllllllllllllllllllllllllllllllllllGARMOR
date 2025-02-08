@@ -596,3 +596,57 @@ end
 
 -- Example listener for chat message
 game:GetService("Players").LocalPlayer.Chatted:Connect(onChatMessage)
+
+wait()
+local player = game.Players.LocalPlayer
+
+-- Wait until the character is loaded
+repeat wait() until player.Character and player.Character:FindFirstChild("Humanoid")
+
+local humanoid = player.Character.Humanoid
+local animate = player.Character:FindFirstChild("Animate")
+
+if humanoid.RigType == Enum.HumanoidRigType.R15 then
+    while true do
+        -- Access and update animations
+        if animate then
+            local idle = animate:FindFirstChild("idle")
+            local walk = animate:FindFirstChild("walk")
+            local run = animate:FindFirstChild("run")
+            local jump = animate:FindFirstChild("jump")
+            local climb = animate:FindFirstChild("climb")
+            local fall = animate:FindFirstChild("fall")
+
+            if idle then
+                idle.Animation1.AnimationId = "http://www.roblox.com/asset/?id=892268340"
+                idle.Animation2.AnimationId = "http://www.roblox.com/asset/?id=892268340"
+            end
+
+            if walk then
+                walk.WalkAnim.AnimationId = "http://www.roblox.com/asset/?id=616168032"
+            end
+
+            if run then
+                run.RunAnim.AnimationId = "http://www.roblox.com/asset/?id=616163682"
+            end
+
+            if jump then
+                jump.JumpAnim.AnimationId = "http://www.roblox.com/asset/?id=658832070"
+            end
+
+            if climb then
+                climb.ClimbAnim.AnimationId = "http://www.roblox.com/asset/?id=1083439238"
+            end
+
+            if fall then
+                fall.FallAnim.AnimationId = "http://www.roblox.com/asset/?id=658831500"
+            end
+        end
+
+        -- Prevent the player from jumping (optional based on your goal)
+        humanoid.Jump = false
+
+        -- Wait before updating again
+        wait(1)
+    end
+end
