@@ -618,8 +618,8 @@ if humanoid.RigType == Enum.HumanoidRigType.R15 then
             local fall = animate:FindFirstChild("fall")
 
             if idle then
-                idle.Animation1.AnimationId = "http://www.roblox.com/asset/?id=892268340"
-                idle.Animation2.AnimationId = "http://www.roblox.com/asset/?id=892268340"
+                idle.Animation1.AnimationId = "http://www.roblox.com/asset/?id=101279640971758"
+                idle.Animation2.AnimationId = "http://www.roblox.com/asset/?id=101279640971758"
             end
 
             if walk then
@@ -631,7 +631,7 @@ if humanoid.RigType == Enum.HumanoidRigType.R15 then
             end
 
             if jump then
-                jump.JumpAnim.AnimationId = "http://www.roblox.com/asset/?id=658832070"
+                jump.JumpAnim.AnimationId = "http://www.roblox.com/asset/?id=754637456"
             end
 
             if climb then
@@ -639,7 +639,7 @@ if humanoid.RigType == Enum.HumanoidRigType.R15 then
             end
 
             if fall then
-                fall.FallAnim.AnimationId = "http://www.roblox.com/asset/?id=658831500"
+                fall.FallAnim.AnimationId = "http://www.roblox.com/asset/?id=754636589"
             end
         end
 
