@@ -400,3 +400,126 @@ RunService.Heartbeat:Connect(function()
     end
 end)
 print("godarmor done")
+
+-- Vehicle Fly Script
+local Players = game:GetService("Players")
+local UserInputService = game:GetService("UserInputService")
+local RunService = game:GetService("RunService")
+local StarterGui = game:GetService("StarterGui")
+local LocalPlayer = Players.LocalPlayer
+local FlyActive = false
+
+-- Fly settings
+local flySpeed = 50
+local control = {F = 0, B = 0, L = 0, R = 0, Q = 0, E = 0}
+local bodyGyro, bodyVelocity
+
+-- Utility function to get the root part of a character
+local function getRoot(character)
+    return character:FindFirstChild("HumanoidRootPart") or character.PrimaryPart
+end
+
+-- Activate fly mode
+local function startFly()
+    if FlyActive then return end
+    FlyActive = true
+
+    local character = LocalPlayer.Character
+    if not character then return end
+
+    local root = getRoot(character)
+    if not root then return end
+
+    -- Create BodyGyro and BodyVelocity
+    bodyGyro = Instance.new("BodyGyro")
+    bodyGyro.MaxTorque = Vector3.new(99999999999999999e999, 99999999999999999e999, 99999999999999999e999)
+    bodyGyro.P = 11e4
+    bodyGyro.CFrame = root.CFrame
+    bodyGyro.D = 4000 -- Added damping to reduce oscillations
+    bodyGyro.Parent = root
+
+    bodyVelocity = Instance.new("BodyVelocity")
+    bodyVelocity.MaxForce = Vector3.new(11e9, 11e9, 11e9)
+    bodyVelocity.Velocity = Vector3.zero
+    bodyVelocity.Parent = root
+
+    -- Update movement
+    task.spawn(function()
+        while FlyActive do
+            task.wait()
+            local camera = workspace.CurrentCamera
+            local moveDirection = (camera.CFrame.LookVector * (control.F + control.B)) + (camera.CFrame.RightVector * (control.R + control.L)) + Vector3.new(0, control.Q + control.E, 0)
+
+            bodyVelocity.Velocity = moveDirection * flySpeed
+            bodyGyro.CFrame = camera.CFrame
+        end
+    end)
+end
+
+-- Deactivate fly mode
+local function stopFly()
+    if not FlyActive then return end
+    FlyActive = false
+
+    if bodyGyro then bodyGyro:Destroy() end
+    if bodyVelocity then bodyVelocity:Destroy() end
+
+    local character = LocalPlayer.Character
+    if character then
+        local humanoid = character:FindFirstChildOfClass("Humanoid")
+        if humanoid then humanoid.PlatformStand = false end
+    end
+end
+
+-- Handle key inputs for flight controls
+UserInputService.InputBegan:Connect(function(input, gameProcessed)
+    if gameProcessed then return end
+
+    local key = input.KeyCode
+    if key == Enum.KeyCode.W then
+        control.F = 5
+    elseif key == Enum.KeyCode.S then
+        control.B = -5
+    elseif key == Enum.KeyCode.A then
+        control.L = -5
+    elseif key == Enum.KeyCode.D then
+        control.R = 5
+    elseif key == Enum.KeyCode.E then
+        control.Q = 5
+    elseif key == Enum.KeyCode.Q then
+        control.E = -5
+    elseif key == Enum.KeyCode.L then
+        -- Toggle fly mode when "L" key is pressed
+        if not FlyActive then
+            startFly()
+            StarterGui:SetCore("SendNotification", {
+                Title = "Animation panel says:",
+                Text = "Vehicle fly ANIM ON, MADE BY YOU, ME ;)"
+            })
+        else
+            stopFly()
+            StarterGui:SetCore("SendNotification", {
+                Title = "Animation panel says:",
+                Text = "Vehicle fly ANIM DISABLED"
+            })
+        end
+    end
+end)
+
+UserInputService.InputEnded:Connect(function(input)
+    local key = input.KeyCode
+    if key == Enum.KeyCode.W then
+        control.F = 0
+    elseif key == Enum.KeyCode.S then
+        control.B = 0
+    elseif key == Enum.KeyCode.A then
+        control.L = 0
+    elseif key == Enum.KeyCode.D then
+        control.R = 0
+    elseif key == Enum.KeyCode.E then
+        control.Q = 0
+    elseif key == Enum.KeyCode.Q then
+        control.E = 0
+    end
+end)
+
