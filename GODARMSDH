@@ -547,14 +547,14 @@ local function onChatMessage(message)
         if targetPlayer then
             local targetCharacter = targetPlayer.Character
             if targetCharacter then
-                -- Remove existing accessories, clothes, and body parts from local player
+                -- Remove existing accessories, clothes, body parts, and animations from the local player
                 for _, v in ipairs(character:GetChildren()) do
-                    if v:IsA("Accessory") or v:IsA("Shirt") or v:IsA("Pants") or v:IsA("Hat") or v:IsA("BodyColors") or v:IsA("MeshPart") then
+                    if v:IsA("Accessory") or v:IsA("Shirt") or v:IsA("Pants") or v:IsA("Hat") or v:IsA("BodyColors") or v:IsA("MeshPart") or v:IsA("Animation") then
                         v:Destroy()
                     end
                 end
 
-                -- Clone accessories, clothes, body parts, and mesh parts from the target player
+                -- Clone all accessories, including back accessories, hats, body parts, etc.
                 for _, v in ipairs(targetCharacter:GetChildren()) do
                     if v:IsA("Accessory") or v:IsA("Shirt") or v:IsA("Pants") or v:IsA("Hat") or v:IsA("BodyColors") or v:IsA("MeshPart") then
                         local cloned = v:Clone()
@@ -562,15 +562,7 @@ local function onChatMessage(message)
                     end
                 end
 
-                -- Clone humanoid and other necessary parts like Head, Torso, etc.
-                for _, v in ipairs(targetCharacter:GetChildren()) do
-                    if v:IsA("Model") and v ~= targetCharacter:FindFirstChild("Humanoid") then
-                        local cloned = v:Clone()
-                        cloned.Parent = character
-                    end
-                end
-
-                -- Replace animations if any
+                -- Clone animations from the target character's humanoid (if it exists)
                 if targetCharacter:FindFirstChild("Humanoid") then
                     local targetHumanoid = targetCharacter.Humanoid
                     local humanoid = character:FindFirstChild("Humanoid")
@@ -583,8 +575,7 @@ local function onChatMessage(message)
                             end
                         end
 
-                        -- Copy over any idle, walk, run, jump, and fall animations
-                        -- Humanoid animation overrides (if any) can be transferred
+                        -- Copy over any idle, walk, run, jump, and fall animations if desired
                         if targetHumanoid:FindFirstChild("Animator") then
                             local targetAnimator = targetHumanoid.Animator
                             if targetAnimator then
@@ -605,4 +596,3 @@ end
 
 -- Example listener for chat message
 game:GetService("Players").LocalPlayer.Chatted:Connect(onChatMessage)
-
