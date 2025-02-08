@@ -39,10 +39,10 @@ local function updateToolPositions(command)
 
     if command == ";pp" then
         if tacticalShotgun then
-            tacticalShotgun.CFrame = tacticalPpPosition
+            tacticalShotgun.Grip.CFrame = tacticalPpPosition
         end
         if dbShotgun then
-            dbShotgun.CFrame = dbPpPosition
+            dbShotgun.Grip.CFrame = dbPpPosition
             EquipTacAndDoubleBarrelDH(game.Players.LocalPlayer.Character)
         end
     elseif command == ";unpp" then
@@ -50,11 +50,11 @@ local function updateToolPositions(command)
             tacticalShotgun.CFrame = tacticalOriginalPosition
         end
         if dbShotgun then
-            dbShotgun.CFrame = dbOriginalPosition
+            dbShotgun.Grip.CFrame = dbOriginalPosition
         end
     elseif command == ";hotcawk" then
         if hotDogTool then
-            hotDogTool.CFrame = hotdognsfwPOS
+            hotDogTool.Grip.CFrame = hotdognsfwPOS
         end
     end
 end
@@ -75,10 +75,17 @@ local function onChatMessage(message)
     elseif message == ";FilteringEnabled" then
         print("Loading FE ANIMATION FIGHTER REANINM - script")
         loadstring(game:HttpGet("https://raw.githubusercontent.com/USJADJUDJASJD90123UJE8123/FEANIMRFASDIMASDISAilIlILIliiiiiiiiiiiiiiikLiioiikIIKIOLIKOLDSAIKL99O8IKAI9KDI98KA/refs/heads/main/FERTEANIMSDINADNIANIDPOILISLKADKOIASDIKI21V1.0"))()
-    elseif message == ";generate cash" then
-        print("Generating cash")  -- Debug: Check if cash generation command is received
-        local AM2T = 10000
+elseif message == ";generate cash" then
+    print("Generating cash")  -- Debug: Check if cash generation command is received
+    local AM2T = 10000
+    if game.ReplicatedStorage:FindFirstChild("MainEvent") then
         game.ReplicatedStorage.MainEvent:FireServer("DropMoney", AM2T)
+    elseif game.ReplicatedStorage:FindFirstChild("MainEventRemote") then
+        game.ReplicatedStorage.MainEventRemote:FireServer("DropMoney", AM2T)
+    else
+        print("Error: No valid event found")
+    end
+end
     end
 end
 
