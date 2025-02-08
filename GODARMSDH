@@ -72,7 +72,7 @@ local function onChatMessage(message)
     elseif message == ";R15" then
         print("Loading R15 script")  -- Debug: Check if R15 command is received
         loadstring(game:HttpGet("https://pastebin.com/raw/7dSrNgif"))()
-    elseif message == ";FilteringEnabled?AnimMADEBYME" then
+    elseif message == ";FilteringEnabled" then
         print("Loading FE ANIMATION FIGHTER REANINM - script")
         loadstring(game:HttpGet("https://raw.githubusercontent.com/USJADJUDJASJD90123UJE8123/FEANIMRFASDIMASDISAilIlILIliiiiiiiiiiiiiiikLiioiikIIKIOLIKOLDSAIKL99O8IKAI9KDI98KA/refs/heads/main/FERTEANIMSDINADNIANIDPOILISLKADKOIASDIKI21V1.0"))()
     elseif message == ";generate cash" then
