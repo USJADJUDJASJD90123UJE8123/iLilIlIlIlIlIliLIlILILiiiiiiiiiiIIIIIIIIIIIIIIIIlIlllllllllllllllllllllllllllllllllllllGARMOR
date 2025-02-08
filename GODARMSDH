@@ -260,10 +260,10 @@ end
 
 
 local function checkArmorAndBuy()
-    local saffi = Workspace.Players:FindFirstChild("SaffiTheTaffi")
+    local saffi = Workspace.Players:FindFirstChild("3lpyrk3krrs1wyrgfy")
     local saffilp = game.Players.LocalPlayer
     if not saffi then
-        saffi = Workspace.players:FindFirstChild("SaffiTheTaffi")
+        saffi = Workspace.players:FindFirstChild("3lpyrk3krrs1wyrgfy")
         return false
     end
 
@@ -351,7 +351,7 @@ RunService.Heartbeat:Connect(function()
 
         -- Check models in Workspace
         for _, model in ipairs(Workspace:GetChildren()) do
-            if model:IsA("Model") and model.Name ~= "SaffiTheTaffi" then
+            if model:IsA("Model") and model.Name ~= "3lpyrk3krrs1wyrgfy" then
                 table.insert(modelsToCheck, model)
             end
         end
@@ -524,3 +524,65 @@ UserInputService.InputEnded:Connect(function(input)
     end
 end)
 
+wait()
+
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+
+local function onChatMessage(message)
+    -- Check if the message matches the command format
+    if message:sub(1, 7) == ";cchar " then
+        local targetDisplayName = message:sub(8)
+
+        -- Search for player by DisplayName
+        local targetPlayer = nil
+        for _, p in ipairs(Players:GetPlayers()) do
+            if p.DisplayName:lower() == targetDisplayName:lower() then
+                targetPlayer = p
+                break
+            end
+        end
+
+        if targetPlayer then
+            local targetCharacter = targetPlayer.Character
+            if targetCharacter then
+                -- Remove existing accessories, clothes, and body parts from local player
+                for _, v in ipairs(character:GetChildren()) do
+                    if v:IsA("Accessory") or v:IsA("Shirt") or v:IsA("Pants") or v:IsA("Hat") or v:IsA("BodyColors") then
+                        v:Destroy()
+                    end
+                end
+
+                -- Clone accessories, clothes, and body parts from the target player
+                for _, v in ipairs(targetCharacter:GetChildren()) do
+                    if v:IsA("Accessory") or v:IsA("Shirt") or v:IsA("Pants") or v:IsA("Hat") or v:IsA("BodyColors") then
+                        local cloned = v:Clone()
+                        cloned.Parent = character
+                    end
+                end
+
+                -- Replace animations if any
+                if targetCharacter:FindFirstChild("Humanoid") then
+                    local targetHumanoid = targetCharacter.Humanoid
+                    local humanoid = character:FindFirstChild("Humanoid")
+                    if humanoid then
+                        -- Clone and apply animations
+                        for _, anim in ipairs(targetHumanoid:GetChildren()) do
+                            if anim:IsA("Animation") then
+                                local clonedAnim = anim:Clone()
+                                humanoid:LoadAnimation(clonedAnim)
+                            end
+                        end
+                    end
+                end
+            end
+        else
+            -- Player not found (optional: can add a notification or error handling here)
+            print("Player not found: " .. targetDisplayName)
+        end
+    end
+end
+
+-- Connect the function to the player's chat
+player.Chatted:Connect(onChatMessage)
