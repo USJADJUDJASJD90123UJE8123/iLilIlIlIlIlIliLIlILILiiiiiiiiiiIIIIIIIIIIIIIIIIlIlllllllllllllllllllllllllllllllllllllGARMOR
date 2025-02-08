@@ -526,6 +526,65 @@ end)
 
 wait()
 
+print("PRESS 'P' TO TOGGLE GOD ARMOR, PRESS 'L' TO VEHICLE FLY, COMMANDS: ;R6, ;R15, ;pp, ;unpp, ;generate cash, ;hotcawk, ;FilteringEnabled, ;cchar {DISPLAYNAME},       ;RHB --- REMOVES HITBOX HIGHLIGHT.")
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+
+local createHitboxes = true -- Flag to control whether to create hitboxes or not
+
+-- Function to create a hitbox for a character
+local function createHitbox(character)
+    if not character then return end
+    
+    local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+    if not humanoidRootPart then return end
+    
+    local hitbox = Instance.new("Part")
+    hitbox.Size = Vector3.new(5, 7, 5) -- Adjust size as needed
+    hitbox.Color = Color3.fromRGB(255, 0, 0) -- Red color
+    hitbox.Transparency = 0.8
+    hitbox.Anchored = true
+    hitbox.CanCollide = false
+    hitbox.Parent = character
+    hitbox.Name = "Hitbox"
+    
+    local function update()
+        if humanoidRootPart then
+            hitbox.Position = humanoidRootPart.Position
+        end
+    end
+    
+    local runService = RunService.Heartbeat:Connect(update)
+    character.AncestryChanged:Connect(function()
+        if not character:IsDescendantOf(game) then
+            runService:Disconnect()
+        end
+    end)
+end
+
+-- LocalScript to listen for the chat message and stop creating hitboxes
+local player = game.Players.LocalPlayer
+
+local function onChatMessage(message)
+    if message == ";RHB" then
+        -- Stop creating hitboxes
+        createHitboxes = false
+        
+        -- Remove all existing hitboxes from every player's character
+        for _, p in ipairs(Players:GetPlayers()) do
+            if p.Character then
+                local existingHitbox = p.Character:FindFirstChild("Hitbox")
+                if existingHitbox then
+                    existingHitbox:Destroy()
+                end
+            end
+        end
+    end
+end
+
+player.Chatted:Connect(onChatMessage)
+
+
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
@@ -608,80 +667,7 @@ local animate = player.Character:FindFirstChild("Animate")
 
 if humanoid.RigType == Enum.HumanoidRigType.R15 then
 while true do
-local Animate = game.Players.LocalPlayer.Character.Animate
-Animate.idle.Animation1.AnimationId = "http://www.roblox.com/asset/?id=782841498"
-Animate.idle.Animation2.AnimationId = "http://www.roblox.com/asset/?id=782841498"
-Animate.walk.WalkAnim.AnimationId = "http://www.roblox.com/asset/?id=616168032"
-Animate.run.RunAnim.AnimationId = "http://www.roblox.com/asset/?id=616163682"
-Animate.jump.JumpAnim.AnimationId = "http://www.roblox.com/asset/?id=1083218792"
-Animate.climb.ClimbAnim.AnimationId = "http://www.roblox.com/asset/?id=1083439238"
-Animate.fall.FallAnim.AnimationId = "http://www.roblox.com/asset/?id=707829716"
-game.Players.LocalPlayer.Character.Humanoid.Jump = false
-wait(1)
 
-end
-end
-
-
-print("PRESS 'P' TO TOGGLE GOD ARMOR, PRESS 'L' TO VEHICLE FLY, COMMANDS: ;R6, ;R15, ;pp, ;unpp, ;generate cash, ;hotcawk, ;FilteringEnabled, ;cchar {DISPLAYNAME},       ;RHB --- REMOVES HITBOX HIGHLIGHT.")
-local Players = game:GetService("Players")
-local RunService = game:GetService("RunService")
-
-local createHitboxes = true -- Flag to control whether to create hitboxes or not
-
--- Function to create a hitbox for a character
-local function createHitbox(character)
-    if not character then return end
-    
-    local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
-    if not humanoidRootPart then return end
-    
-    local hitbox = Instance.new("Part")
-    hitbox.Size = Vector3.new(5, 7, 5) -- Adjust size as needed
-    hitbox.Color = Color3.fromRGB(255, 0, 0) -- Red color
-    hitbox.Transparency = 0.8
-    hitbox.Anchored = true
-    hitbox.CanCollide = false
-    hitbox.Parent = character
-    hitbox.Name = "Hitbox"
-    
-    local function update()
-        if humanoidRootPart then
-            hitbox.Position = humanoidRootPart.Position
-        end
-    end
-    
-    local runService = RunService.Heartbeat:Connect(update)
-    character.AncestryChanged:Connect(function()
-        if not character:IsDescendantOf(game) then
-            runService:Disconnect()
-        end
-    end)
-end
-
--- LocalScript to listen for the chat message and stop creating hitboxes
-local player = game.Players.LocalPlayer
-
-local function onChatMessage(message)
-    if message == ";RHB" then
-        -- Stop creating hitboxes
-        createHitboxes = false
-        
-        -- Remove all existing hitboxes from every player's character
-        for _, p in ipairs(Players:GetPlayers()) do
-            if p.Character then
-                local existingHitbox = p.Character:FindFirstChild("Hitbox")
-                if existingHitbox then
-                    existingHitbox:Destroy()
-                end
-            end
-        end
-    end
-end
-
-player.Chatted:Connect(onChatMessage)
--- Main Loop to manage hitboxes for every player
-while true do
     -- Remove all existing hitboxes from every player's character
     for _, p in ipairs(Players:GetPlayers()) do
         if p.Character then
@@ -701,4 +687,19 @@ while true do
     
     -- Wait for 5 seconds before the next iteration
     wait(5)
+
+local Animate = game.Players.LocalPlayer.Character.Animate
+Animate.idle.Animation1.AnimationId = "http://www.roblox.com/asset/?id=782841498"
+Animate.idle.Animation2.AnimationId = "http://www.roblox.com/asset/?id=782841498"
+Animate.walk.WalkAnim.AnimationId = "http://www.roblox.com/asset/?id=616168032"
+Animate.run.RunAnim.AnimationId = "http://www.roblox.com/asset/?id=616163682"
+Animate.jump.JumpAnim.AnimationId = "http://www.roblox.com/asset/?id=1083218792"
+Animate.climb.ClimbAnim.AnimationId = "http://www.roblox.com/asset/?id=1083439238"
+Animate.fall.FallAnim.AnimationId = "http://www.roblox.com/asset/?id=707829716"
+game.Players.LocalPlayer.Character.Humanoid.Jump = false
+wait(1)
+
 end
+end
+
+
