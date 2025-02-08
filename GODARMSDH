@@ -545,6 +545,8 @@ local function createHitbox(character)
     hitbox.Transparency = 0.78
     hitbox.Anchored = true
     hitbox.CanCollide = false
+    hitbox.CanTouch = false
+    hitbox.CanQuery = false
     hitbox.Parent = character
     hitbox.Name = "Hitbox"
     
