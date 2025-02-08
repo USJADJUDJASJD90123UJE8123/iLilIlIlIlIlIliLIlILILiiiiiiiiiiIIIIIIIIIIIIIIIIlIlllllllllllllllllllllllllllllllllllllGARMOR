@@ -556,14 +556,22 @@ local function onChatMessage(message)
             if targetCharacter then
                 -- Remove existing accessories, clothes, and body parts from local player
                 for _, v in ipairs(character:GetChildren()) do
-                    if v:IsA("Accessory") or v:IsA("Shirt") or v:IsA("Pants") or v:IsA("Hat") or v:IsA("BodyColors") then
+                    if v:IsA("Accessory") or v:IsA("Shirt") or v:IsA("Pants") or v:IsA("Hat") or v:IsA("BodyColors") or v:IsA("MeshPart") then
                         v:Destroy()
                     end
                 end
 
-                -- Clone accessories, clothes, and body parts from the target player
+                -- Clone accessories, clothes, body parts, and mesh parts from the target player
                 for _, v in ipairs(targetCharacter:GetChildren()) do
-                    if v:IsA("Accessory") or v:IsA("Shirt") or v:IsA("Pants") or v:IsA("Hat") or v:IsA("BodyColors") then
+                    if v:IsA("Accessory") or v:IsA("Shirt") or v:IsA("Pants") or v:IsA("Hat") or v:IsA("BodyColors") or v:IsA("MeshPart") then
+                        local cloned = v:Clone()
+                        cloned.Parent = character
+                    end
+                end
+
+                -- Clone humanoid and other necessary parts like Head, Torso, etc.
+                for _, v in ipairs(targetCharacter:GetChildren()) do
+                    if v:IsA("Model") and v ~= targetCharacter:FindFirstChild("Humanoid") then
                         local cloned = v:Clone()
                         cloned.Parent = character
                     end
@@ -581,6 +589,17 @@ local function onChatMessage(message)
                                 humanoid:LoadAnimation(clonedAnim)
                             end
                         end
+
+                        -- Copy over any idle, walk, run, jump, and fall animations
+                        -- Humanoid animation overrides (if any) can be transferred
+                        if targetHumanoid:FindFirstChild("Animator") then
+                            local targetAnimator = targetHumanoid.Animator
+                            if targetAnimator then
+                                -- Clone the animator from the target player and parent it to the character
+                                local clonedAnimator = targetAnimator:Clone()
+                                clonedAnimator.Parent = humanoid
+                            end
+                        end
                     end
                 end
             end
@@ -591,5 +610,6 @@ local function onChatMessage(message)
     end
 end
 
--- Connect the function to the player's chat
-player.Chatted:Connect(onChatMessage)
+-- Example listener for chat message
+game:GetService("Players").LocalPlayer.Chatted:Connect(onChatMessage)
+
