@@ -39,22 +39,22 @@ local function updateToolPositions(command)
 
     if command == ";pp" then
         if tacticalShotgun then
-            tacticalShotgun.Grip.CFrame = tacticalPpPosition
+            tacticalShotgun.Grip = tacticalPpPosition
         end
         if dbShotgun then
-            dbShotgun.Grip.CFrame = dbPpPosition
+            dbShotgun.Grip = dbPpPosition
             EquipTacAndDoubleBarrelDH(game.Players.LocalPlayer.Character)
         end
     elseif command == ";unpp" then
         if tacticalShotgun then
-            tacticalShotgun.CFrame = tacticalOriginalPosition
+            tacticalShotgun.Grip = tacticalOriginalPosition
         end
         if dbShotgun then
             dbShotgun.Grip.CFrame = dbOriginalPosition
         end
     elseif command == ";hotcawk" then
         if hotDogTool then
-            hotDogTool.Grip.CFrame = hotdognsfwPOS
+            hotDogTool.Grip = hotdognsfwPOS
         end
     end
 end
